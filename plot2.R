@@ -1,7 +1,7 @@
 library(sqldf)
 
 # Download data
-data.url <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20dataset.zip'
+data.url <- 'https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip'
 data.filename <- 'household_power_consumption.txt'
 
 if( ! file.exists(data.filename) ){
@@ -26,6 +26,14 @@ data <- within(data, {
   Date <- as.Date(Date, '%d/%m/%Y')
 })
 
-# Plot graph of power cunsumption by time
-title = 'Global active power (kilowatts)'
-with(data, plot(Time, Global_active_power, type = 'l', ylab = title, xlab = ''))
+# Setup global graph settings to
+# place single picture and adjust margin
+par(mfrow = c(1, 1), mar = c(3, 5, 2, 2))
+
+# Plot a graph of power cunsumption by time
+yLabel = 'Global active power (kilowatts)'
+with(data, plot(Time, Global_active_power, type = 'l', ylab = yLabel, xlab = ''))
+
+# Save the plot to PNG
+dev.copy(png, file = "plot2.png", height = 480, width = 480)
+dev.off()

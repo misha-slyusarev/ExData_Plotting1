@@ -1,7 +1,7 @@
 library(sqldf)
 
 # Download data
-data.url <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20dataset.zip'
+data.url <- 'https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip'
 data.filename <- 'household_power_consumption.txt'
 
 if( ! file.exists(data.filename) ){
@@ -20,6 +20,14 @@ data <- read.csv.sql(data.filename,
   "select * from file where Date in ('1/2/2007', '2/2/2007')", 
   sep=';', colClasses = columnClasses)
 
+# Setup global graph settings to
+# place single picture and adjust margin
+par(mfrow = c(1, 1), mar = c(5, 5, 3, 1))
+
 # Plot a histogram
 title = 'Global active power'
 hist(data$Global_active_power, col = 'red', main = title, xlab = paste(title, '(kilowatts)'))
+
+# Save the plot to PNG
+dev.copy(png, file = "plot1.png", height = 480, width = 480)
+dev.off()

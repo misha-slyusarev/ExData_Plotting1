@@ -1,7 +1,7 @@
 library(sqldf)
 
 # Download data
-data.url <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20dataset.zip'
+data.url <- 'https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip'
 data.filename <- 'household_power_consumption.txt'
 
 if( ! file.exists(data.filename) ){
@@ -26,7 +26,11 @@ data <- within(data, {
   Date <- as.Date(Date, '%d/%m/%Y')
 })
 
-# Plot graph of submetering by time
+# Setup global graph settings to
+# place single picture and adjust margin
+par(mfrow = c(1, 1), mar = c(3, 5, 2, 2))
+
+# Plot a graph of sub metering by time
 yLabel = 'Energy sub metering'
 with(data, {
   plot(Time, Sub_metering_1, type = 'l', ylab = yLabel, xlab = '', col = 'grey')
@@ -36,3 +40,7 @@ with(data, {
          legend = c('Sub metering 1', 'Sub metering 2', 'Sub metering 3'), 
          col = c('grey', 'red', 'blue'), lty = 1)
 })
+
+# Save the plot to PNG
+dev.copy(png, file = "plot3.png", height = 480, width = 480)
+dev.off()
