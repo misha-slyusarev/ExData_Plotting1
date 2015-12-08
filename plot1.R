@@ -20,8 +20,6 @@ data <- read.csv.sql(data.filename,
   "select * from file where Date in ('1/2/2007', '2/2/2007')", 
   sep=';', colClasses = columnClasses)
 
-# Convert Date & Time fields from chr to Date & Time data types
-data <- within(data, {
-  Time <- strptime(paste(Date, Time), format = "%d/%m/%Y %H:%M:%S")
-  Date <- as.Date(Date, '%d/%m/%Y')
-})
+# Plot a histogram
+title = 'Global active power'
+hist(data$Global_active_power, col = 'red', main = title, xlab = paste(title, '(kilowatts)'))
