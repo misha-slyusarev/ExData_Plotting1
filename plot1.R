@@ -13,9 +13,15 @@ if( ! file.exists(data.filename) ){
 
 # Find out column types to speed up reading from file
 data.initial <- read.csv(data.filename, sep = ';', nrows = 1)
-classes <- sapply(data.initial, class)
+columnClasses <- sapply(data.initial, class)
 
 # Read data to memory with filtering by certain dates
 data <- read.csv.sql(data.filename, 
-                     "select * from file where Date in ('1/2/2007', '2/2/2007')", 
-                     sep=';', colClasses = classes)
+  "select * from file where Date in ('1/2/2007', '2/2/2007')", 
+  sep=';', colClasses = columnClasses)
+
+# Convert Date & Time fields from chr to Date & Time data types
+data <- within(data, {
+  Time <- strptime(paste(Date, Time), format = "%d/%m/%Y %H:%M:%S")
+  Date <- as.Date(Date, '%d/%m/%Y')
+})
