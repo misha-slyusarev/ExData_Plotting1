@@ -25,3 +25,7 @@ data <- within(data, {
   Time <- strptime(paste(Date, Time), format = "%d/%m/%Y %H:%M:%S")
   Date <- as.Date(Date, '%d/%m/%Y')
 })
+
+# Plot graph of power cunsumption by time
+title = 'Global active power (kilowatts)'
+with(data, plot(Time, Global_active_power, type = 'l', ylab = title, xlab = ''))
